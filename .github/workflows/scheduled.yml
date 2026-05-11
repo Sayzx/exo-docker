@@ -1,0 +1,28 @@
+# Exercice 3 - Déclencheurs: Cron et workflow_dispatch avec input
+name: Scheduled & Manual Execution
+
+on:
+  schedule:
+    - cron: '0 9 * * 1-5'  # 09:00 UTC chaque jour ouvré (lun-ven)
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environnement de déploiement'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+jobs:
+  scheduled-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Exécution planifiée
+        run: echo "Scheduled run à $(date)"
+
+      - name: Afficher l'environnement sélectionné
+        if: github.event_name == 'workflow_dispatch'
+        run: echo "Environnement sélectionné: ${{ github.event.inputs.environment }}"

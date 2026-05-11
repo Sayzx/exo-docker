@@ -1,0 +1,15 @@
+# Exercice 3 - Déclencheurs: PR uniquement sur main
+name: PR Check
+
+on:
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  pr-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Afficher info PR
+        run: |
+          echo "Numéro de PR: ${{ github.event.pull_request.number }}"
+          echo "Auteur: ${{ github.event.pull_request.user.login }}"

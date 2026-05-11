@@ -1,0 +1,1 @@
+echo 'Script de test'

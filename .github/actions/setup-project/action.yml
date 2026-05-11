@@ -1,0 +1,27 @@
+# Exercice 11 - Action composite (Partie B)
+# Cette action regroupe les étapes courantes de setup
+
+name: Setup Project
+description: Checkout, setup Python, installer dépendances et vérifier
+
+runs:
+  using: composite
+
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Installer dépendances
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Vérification (lint placeholder)
+      shell: bash
+      run: echo "✓ Vérification: tout OK"

@@ -1,0 +1,35 @@
+# Exercice 11 - Workflow réutilisable (Partie A)
+# Ce workflow peut être appelé par d'autres via workflow_call
+
+name: Reusable Test Workflow
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        description: 'Version Python à utiliser'
+        required: false
+        default: '3.11'
+        type: string
+    secrets:
+      NPM_TOKEN:
+        required: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ inputs.python-version }}
+
+      - name: Installer dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Exécuter les tests
+        run: pytest -v

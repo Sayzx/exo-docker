@@ -1,0 +1,14 @@
+# Exercice 3 - Déclencheurs: Filtré par chemin (paths)
+name: Documentation Check
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+
+jobs:
+  check-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Vérifier les docs
+        run: echo "Documentation modifiée et validée"

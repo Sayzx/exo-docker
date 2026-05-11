@@ -1,0 +1,22 @@
+# Exercice 1-2: Premier contact et anatomie d'un fichier YAML
+# Ce workflow démontre la structure de base d'un workflow GitHub Actions
+
+name: Workflow d'initiation
+
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  saluer-le-monde:  # Nom du job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Étape 1 - Salutation
+        run: echo "Bonjour depuis GitHub Actions !"
+
+      - name: Étape 2 - Date du jour
+        run: date
+
+      - name: Étape 3 - Contexte GitHub
+        run: echo "Exécuté par ${{ github.actor }}"

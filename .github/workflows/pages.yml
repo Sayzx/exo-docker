@@ -1,0 +1,60 @@
+# Exercice 12 - Déploiement sur GitHub Pages (Partie B)
+name: Deploy to Pages
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch
+
+permissions:
+  pages: write
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Créer artefact pour Pages
+        run: |
+          mkdir -p site
+          cat > site/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Exercice 12 - GitHub Pages</title>
+            <style>
+              body { font-family: Arial; margin: 40px; }
+              h1 { color: #333; }
+              .info { background: #f0f0f0; padding: 10px; }
+            </style>
+          </head>
+          <body>
+            <h1>🚀 Déploiement GitHub Pages</h1>
+            <div class="info">
+              <p>Ceci est une page déployée automatiquement via GitHub Actions.</p>
+              <p>Build: ${{ github.run_number }}</p>
+              <p>Ref: ${{ github.ref }}</p>
+            </div>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'site'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

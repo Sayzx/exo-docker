@@ -1,0 +1,61 @@
+# Exercice 10 - Artefacts et mise en cache
+name: Cache & Artifacts Demo
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      report-path: ${{ steps.build.outputs.report-path }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Installer dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build et générer rapport
+        id: build
+        run: |
+          mkdir -p dist
+          echo "Build #${{ github.run_number }} - $(date)" > dist/report.txt
+          echo "Commit: ${{ github.sha }}" >> dist/report.txt
+          echo "report-path=dist/report.txt" >> $GITHUB_OUTPUT
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-report
+          path: dist/report.txt
+          retention-days: 3
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-report
+
+      - name: Afficher rapport
+        run: cat report.txt

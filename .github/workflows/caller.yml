@@ -1,0 +1,13 @@
+# Exercice 11 - Appel du workflow réutilisable (Partie A)
+name: Caller - Uses Reusable Workflow
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch
+
+jobs:
+  call-reusable:
+    uses: ./.github/workflows/reusable-test.yml
+    with:
+      python-version: '3.12'

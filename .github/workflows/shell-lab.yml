@@ -1,0 +1,35 @@
+# Exercice 4 - Étapes, commandes shell et codes de sortie
+name: Shell Lab
+
+on:
+  workflow_dispatch
+
+jobs:
+  shell-exploration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Script multi-lignes
+        run: |
+          echo "Message 1"
+          echo "Message 2"
+          echo "Message 3"
+
+      - name: Commande dans un répertoire spécifique
+        working-directory: ./scripts
+        run: ls -la
+
+      - name: Variables d'environnement
+        env:
+          VAR_1: "Bonjour"
+          VAR_2: "Monde"
+        run: |
+          echo "${VAR_1} ${VAR_2}"
+          echo "Variable 1: $VAR_1"
+
+      - name: Étape avec erreur intentionnelle
+        run: exit 1
+
+      - name: Étape avec continue-on-error
+        continue-on-error: true
+        run: exit 1

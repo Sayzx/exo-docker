@@ -9,6 +9,32 @@
 
 ---
 
+## 📚 NEW — Branche GitHub Actions (github-actions-lab)
+
+> **🆕 Exercices GitHub Actions disponibles !**
+>
+> Une **série complète de 12 exercices progressifs** pour maîtriser GitHub Actions de zéro à la production.
+>
+> 📖 **[📖 Voir la documentation complète](README_EXERCICES_GITHUB_ACTIONS.md)**
+>
+> **Contenu :**
+> - ✅ Anatomie YAML et premiers workflows
+> - ✅ Déclencheurs variés et filtrage par chemin
+> - ✅ Jobs dépendants et actions du marketplace
+> - ✅ Secrets, variables et exécution conditionnelle
+> - ✅ Stratégie matricielle multi-OS/versions
+> - ✅ Cache et artefacts pour performance
+> - ✅ Workflows réutilisables et actions composites
+> - ✅ Déploiement, environnements et approbations
+> - ✅ Runners auto-hébergés et considérations de sécurité
+>
+> **Branch :** `github-actions-lab`  
+> **Durée :** ~13-15h (12 exercices + tests + documentation)
+>
+> Chaque exercice inclut : **code complet**, **explications détaillées**, **difficultés rencontrées**, et **leçons apprises**.
+
+---
+
 ## Partie 1 — Les bases
 
 ---

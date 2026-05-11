@@ -1,0 +1,33 @@
+# Exercice 7 - Variables d'environnement et secrets
+name: Env & Secrets Demo
+
+on:
+  workflow_dispatch
+
+# Variables au niveau du workflow
+env:
+  APP_NAME: my-app
+
+jobs:
+  env-job:
+    # Variables au niveau du job
+    env:
+      STAGE: ci
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Afficher variables
+        # Variables au niveau de l'étape
+        env:
+          LOG_LEVEL: debug
+        run: |
+          echo "APP_NAME (workflow): $APP_NAME"
+          echo "STAGE (job): $STAGE"
+          echo "LOG_LEVEL (step): $LOG_LEVEL"
+
+      - name: Utiliser le secret GITHUB_TOKEN
+        run: |
+          gh api /repos/${{ github.repository }} --jq '.name, .description'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

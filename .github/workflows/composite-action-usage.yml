@@ -1,0 +1,18 @@
+# Exercice 11 - Utilisation de l'action composite (Partie B)
+name: Using Composite Action
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup du projet avec action composite
+        uses: ./.github/actions/setup-project
+
+      - name: Exécuter les tests
+        run: pytest -v

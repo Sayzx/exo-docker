@@ -1,0 +1,26 @@
+# Exercice 12 - Runner auto-hébergé (Partie C)
+name: Self-Hosted Runner Demo
+
+on:
+  workflow_dispatch
+
+jobs:
+  on-self-hosted:
+    # Utilise un runner auto-hébergé au lieu de GitHub-hosted
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Afficher l'hostname
+        run: hostname
+
+      - name: Afficher l'utilisateur
+        run: whoami
+
+      - name: Info du système
+        run: |
+          echo "OS: $(uname -s)"
+          echo "Architecture: $(uname -m)"
+          pwd
+          ls -la .github/workflows | head -5

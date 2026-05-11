@@ -1,0 +1,48 @@
+# Exercice 12 - Déploiement, environnements et approbations (Partie A)
+name: Deploy with Approvals
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environnement de déploiement'
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - run: pytest -v
+
+  deploy-staging:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: staging
+    if: github.event_name == 'push' || github.event.inputs.environment == 'staging'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Déployer sur staging
+        run: echo "✓ Déploiement sur staging réussi"
+
+  deploy-production:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: production
+    if: github.event.inputs.environment == 'production'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Déployer sur production
+        run: echo "✓ Déploiement sur production réussi"

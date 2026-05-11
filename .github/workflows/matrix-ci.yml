@@ -1,0 +1,49 @@
+# Exercice 9 - Stratégie matricielle
+name: Matrix CI - Multi-OS & Versions
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.9', '3.11', '3.12']
+        experimental: [false]
+        include:
+          # Ajouter une combinaison expérimentale: Ubuntu + Python 3.13
+          - os: ubuntu-latest
+            python-version: '3.13'
+            experimental: true
+        exclude:
+          # Exclure macOS + Python 3.9
+          - os: macos-latest
+            python-version: '3.9'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Installer dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Exécuter les tests
+        continue-on-error: ${{ matrix.experimental || false }}
+        run: pytest -v
+
+      - name: Info matrice
+        run: |
+          echo "OS: ${{ matrix.os }}"
+          echo "Python: ${{ matrix.python-version }}"
+          echo "Experimental: ${{ matrix.experimental }}"

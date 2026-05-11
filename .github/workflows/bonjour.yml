@@ -5,7 +5,8 @@ name: Workflow d'initiation
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, github-actions-lab]
+  workflow_dispatch
 
 jobs:
   saluer-le-monde:  # Nom du job

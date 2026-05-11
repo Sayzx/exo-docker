@@ -3,9 +3,10 @@ name: Matrix CI - Multi-OS & Versions
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, github-actions-lab]
   pull_request:
     branches: [main, master]
+  workflow_dispatch
 
 jobs:
   test:

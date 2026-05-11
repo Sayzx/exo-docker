@@ -3,7 +3,7 @@ name: Using Composite Action
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, github-actions-lab]
   workflow_dispatch
 
 jobs:
